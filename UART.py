@@ -59,14 +59,14 @@ def create_signal(sample_rate, baud_rate, message):
                 transmitting = False
                 transmitted = True
 
-            if current_tx_sample < (bit_index + 1) * samples_per_bit:
+            if current_tx_sample >= (bit_index + 1) * samples_per_bit:
                 bit_index += 1
 
             
 
 
         else:
-            sent_signal.append(1)
+            sent_signal.append("1")
 
 
 
@@ -98,5 +98,7 @@ def create_signal(sample_rate, baud_rate, message):
 
     return(sent_signal)
 
-print(create_signal(20, 10, "1001"))
+tx = create_signal(200, 10, "1001")
+print(len(tx))
+print(tx)
 # print(len(create_signal(20, 10, "1001")))
