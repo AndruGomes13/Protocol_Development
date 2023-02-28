@@ -9,7 +9,7 @@ TX_signal = []
 
 
 
-def create_signal(sample_rate, baud_rate, message):
+def create_signal(message, baud_rate, sample_rate):
     if sample_rate % baud_rate != 0:
         raise ValueError("Sample rate must be multiple of baud rate")
     
@@ -69,36 +69,28 @@ def create_signal(sample_rate, baud_rate, message):
             sent_signal.append("1")
 
 
-
-        # if i > signal_start and transmitted == False:
-        #     transmitting = True
-        # elif transmitted == False and i == signal_start:
-        #     sent_signal.append(1)
-        #     transmitting = True
-        # else:
-        #     sent_signal.append(1)
-
-
-        # if transmitting:
-        #     if bit_index <= len(bits_to_send) - 1:
-        #         sent_signal.append(bits_to_send[bit_index])
-        #         print(bit_index)
-
-        #     else:
-        #         transmitting = False
-        #         transmitted = True
-
-        #     #start_bit
-        #     if current_tx_sample >= (bit_index + 1) * samples_per_bit:
-        #         bit_index += 1
-        #     current_tx_sample += 1
-        #     print(f"Current_sample: {current_tx_sample}")
-
-
-
     return(sent_signal)
 
-tx = create_signal(200, 10, "1001")
-print(len(tx))
-print(tx)
-# print(len(create_signal(20, 10, "1001")))
+
+baud_rate = 10
+sample_rate = 200
+
+tx = create_signal("1001", baud_rate, sample_rate)
+
+def read_signal(rx_signal, baud_rate, sample_rate):
+
+    samples_per_bit = sample_rate // baud_rate
+    number_receive_bits = 9
+    read_margin = samples_per_bit // 2
+    deocded_signal = []
+
+    receiving = False
+    for i, sample in enumerate(tx):
+        if receiving == False and sample == "1":
+            continue
+        if receiving == False and sample == "0":
+            receiving = True
+
+        
+        if receiving:
+            sample
